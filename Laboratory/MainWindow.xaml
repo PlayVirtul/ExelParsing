@@ -1,0 +1,32 @@
+﻿<Window x:Class="Laboratory.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Laboratory"
+        mc:Ignorable="d"
+        Title="Угрозы" Width="900" Height="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button x:Name="DownloadButton" Content="Скачать файл" Margin="10,10,0,0" FontSize="15" Click="Download_Button" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="126"/>
+        <Button x:Name="ShowTableButton" Content="Отобразить содержимое файла" Margin="156,10,0,0" FontSize="15" Click="ShowTableButton_Click" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="228"/>
+        <DataGrid Name="mainTable" IsReadOnly ="True" AutoGenerateColumns="False" Margin="0,54,10,87" ColumnWidth="*" RowHeight="33" MouseDoubleClick="Row_DoubleClick">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="30" Binding="{Binding Id}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style>
+                            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Наименование угрозы" Binding="{Binding Name}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="UpdateFileButton" Content="Обновить данные" Margin="400,10,0,0" FontSize="15" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="226" Click="UpdateFileButton_Click"/>
+        <Button x:Name="SavingButton" Content="Сохранить файл" Margin="645,10,0,0" FontSize="15" Click="SavingButton_Click" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="126"/>
+    </Grid>
+</Window>
