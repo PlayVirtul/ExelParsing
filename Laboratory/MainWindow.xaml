@@ -8,8 +8,7 @@
         Title="Угрозы" Width="900" Height="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button x:Name="DownloadButton" Content="Скачать файл" Margin="10,10,0,0" FontSize="15" Click="Download_Button" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="126"/>
-        <Button x:Name="ShowTableButton" Content="Отобразить содержимое файла" Margin="156,10,0,0" FontSize="15" Click="ShowTableButton_Click" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="228"/>
-        <DataGrid Name="mainTable" IsReadOnly ="True" AutoGenerateColumns="False" Margin="0,54,10,87" ColumnWidth="*" RowHeight="33" MouseDoubleClick="Row_DoubleClick">
+        <DataGrid Name="mainTable" IsReadOnly ="True" AutoGenerateColumns="False" Margin="10,54,10,80" ColumnWidth="*" RowHeight="33" MouseDoubleClick="Row_DoubleClick">
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
@@ -26,7 +25,10 @@
                 <DataGridTextColumn Header="Наименование угрозы" Binding="{Binding Name}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="UpdateFileButton" Content="Обновить данные" Margin="400,10,0,0" FontSize="15" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="226" Click="UpdateFileButton_Click"/>
-        <Button x:Name="SavingButton" Content="Сохранить файл" Margin="645,10,0,0" FontSize="15" Click="SavingButton_Click" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="126"/>
+        <Button x:Name="updateFileButton" Content="Обновить данные" Margin="168,10,0,0" FontSize="15" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="226" Click="UpdateFileButton_Click"/>
+        <Button x:Name="savingButton" Content="Сохранить файл" Margin="428,10,0,0" FontSize="15" Click="SavingButton_Click" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="126"/>
+        <Button x:Name="previousButton" Content="&lt;" HorizontalAlignment="Center" Margin="0,0,180,40" VerticalAlignment="Bottom" Width="75" Click="PreviousButton_Click"/>
+        <Button x:Name="nextButton" Content="&gt;" HorizontalAlignment="Center" Margin="0,0,-180,40" VerticalAlignment="Bottom" Width="75" Click="NextButton_Click"/>
+        <Label x:Name="pageNumberText" Content="Label" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40"/>
     </Grid>
 </Window>

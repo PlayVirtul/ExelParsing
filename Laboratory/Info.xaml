@@ -30,7 +30,7 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Нарушение конфиденциальности" Width="150" TextWrapping="Wrap" Margin="10,20,0,0" FontSize="15" TextAlignment="Center"/>
             <Border BorderThickness="1" BorderBrush="Black" Margin ="10,20,10,10" Width="100" Height="30">
-                <TextBlock Text="{Binding Path=Сonfidentiality}" TextWrapping="Wrap" TextAlignment="Center"/>
+                <TextBlock Text="{Binding Path=Confidentiality}" TextWrapping="Wrap" TextAlignment="Center"/>
             </Border>
         </StackPanel>
         <StackPanel Orientation="Horizontal">

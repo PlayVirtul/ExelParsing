@@ -9,9 +9,11 @@ namespace Laboratory
 {
     public class Threat : INotifyPropertyChanged
     {
+        public List<object> values;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
 
         private string description;
@@ -45,7 +47,7 @@ namespace Laboratory
             }
         }
         public string confidentiality;
-        public string Сonfidentiality
+        public string Confidentiality
         {
             get => confidentiality;
             set
@@ -58,7 +60,7 @@ namespace Laboratory
                 {
                     confidentiality = "нет";
                 }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Сonfidentiality)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Confidentiality)));
             }
         }
         private string integrity;
@@ -96,16 +98,18 @@ namespace Laboratory
             }
         }
 
-        public Threat(int id, string name, string description, string source, string target, string сonfidentiality, string integrity, string availability)
+        public Threat(string id, string name, string description, string source, string target, string сonfidentiality, string integrity, string availability)
         {
             Id = id;
             Name = name;
             Description = description;
             Source = source;
             Target = target;
-            Сonfidentiality = сonfidentiality;
+            Confidentiality = сonfidentiality;
             Integrity = integrity;
             Availability = availability;
+
+            values = new List<object>() { Id, Name, Description, Source, Target, Confidentiality, Integrity, Availability };
         }
 
     }

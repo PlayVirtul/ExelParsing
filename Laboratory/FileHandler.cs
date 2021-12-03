@@ -37,7 +37,7 @@ namespace Laboratory
             }
         }
 
-        public static void CheckFile()
+        public static bool CheckFile()
         {
             if (!File.Exists(FileName))
             {
@@ -48,21 +48,25 @@ namespace Laboratory
                         try
                         {
                             GetFile();
+                            return true;
                         }
                         catch (Exception)
                         {
                             MessageBox.Show("Неудалось скачать файл");
+                            return false;
                         }
-                        break;
                     case MessageBoxResult.No:
                         {
-                            break;
+                            return false;
                         }
+                    default:
+                        return false;
                 }
             }
             else
             {
                 MessageBox.Show("На вашем утройстве уже обнаружен файл с данными");
+                return true;
             }
         }
 

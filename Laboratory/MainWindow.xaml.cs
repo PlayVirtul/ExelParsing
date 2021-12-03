@@ -17,29 +17,35 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using OfficeOpenXml;
+using PagedList;
 
 namespace Laboratory
 {
     public partial class MainWindow : Window
     {
-        private List<Threat> allThreats = new List<Threat>();
+        private List<Threat> allthreats;
+        private IPagedList<Threat> threatsPage;
+        private int pageNumber = 1;
 
         public MainWindow()
         {
             InitializeComponent();
-            FileHandler.CheckFile();
-            allThreats = ReadExcelFile();
+            if (FileHandler.CheckFile())
+            {
+                allthreats = ReadExcelFile();
+                threatsPage = GetPagedList();
+                mainTable.ItemsSource = threatsPage;
+                pageNumberText.Content = string.Format("Page {0}/{1}", pageNumber, threatsPage.PageCount);
+            }
         }
 
         private void Download_Button(object sender, RoutedEventArgs e)
         {
             FileHandler.GetFile();
-            allThreats = ReadExcelFile();
-        }
-
-        private void ShowTableButton_Click(object sender, RoutedEventArgs e)
-        {
-            mainTable.ItemsSource = allThreats;
+            allthreats = ReadExcelFile();
+            threatsPage = GetPagedList();
+            mainTable.ItemsSource = threatsPage;
+            pageNumberText.Content = string.Format("Page {0}/{1}", pageNumber, threatsPage.PageCount);
         }
 
         private List<Threat> ReadExcelFile()
@@ -53,42 +59,51 @@ namespace Laboratory
                     for (int i = worksheet.Dimension.Start.Row + 2; i <= worksheet.Dimension.End.Row; i++)
                     {
                         int j = 1;
-                        if (worksheet.Cells[i, j].Value != null)
+                        for (int k = 0; k < 8; k++)
                         {
-                            Threat threat = new Threat(int.Parse(worksheet.Cells[i, j].Value.ToString()), worksheet.Cells[i, j + 1].Value.ToString(),
+                            if (worksheet.Cells[i, j + k].Value == null)
+                            {
+                                worksheet.Cells[i, j + k].Value = "";
+                            }
+                        }
+                        Threat threat = new Threat(worksheet.Cells[i, j].Value.ToString(), worksheet.Cells[i, j + 1].Value.ToString(),
                                 worksheet.Cells[i, j + 2].Value.ToString(), worksheet.Cells[i, j + 3].Value.ToString(),
                                 worksheet.Cells[i, j + 4].Value.ToString(), worksheet.Cells[i, j + 5].Value.ToString(),
                                 worksheet.Cells[i, j + 6].Value.ToString(), worksheet.Cells[i, j + 7].Value.ToString());
-                            threats.Add(threat);
-                        }
+
+                        threats.Add(threat);
                     }
                 }
             }
             return threats;
         }
 
+        private IPagedList<Threat> GetPagedList(int pageNumber = 1, int pageSize = 15)
+        {
+            return allthreats.ToPagedList(pageNumber, pageSize);
+        }
+
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGridRow row = sender as DataGridRow;
-            if(row == null)
+            if (row == null)
             {
                 return;
             }
             Info infoWindow = new Info();
             infoWindow.Show();
-            infoWindow.ShowInfo(allThreats[row.GetIndex()]);
+            infoWindow.ShowInfo(threatsPage[row.GetIndex()]);
         }
 
         private void UpdateFileButton_Click(object sender, RoutedEventArgs e)
         {
             if (File.Exists(FileHandler.FileName))
             {
-                var temp = allThreats;
+                var temp = allthreats;
                 FileHandler.UpdateFile();
-                allThreats = ReadExcelFile();
-
-                MessageBox.Show(Convert.ToString(allThreats.Count));
-                MessageBox.Show(Convert.ToString(temp.Count));
+                allthreats = ReadExcelFile();
+                UpdateInfo updateWindow = new UpdateInfo();
+                updateWindow.UpdatedInfo(allthreats, temp);
             }
             else
             {
@@ -111,7 +126,33 @@ namespace Laboratory
             }
             else
             {
-                MessageBox.Show("Данные не были загружены.");
+                MessageBox.Show("Данные ещё не были загружены.");
+            }
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (threatsPage != null)
+            {
+                if (threatsPage.HasPreviousPage)
+                {
+                    threatsPage = GetPagedList(--pageNumber);
+                    mainTable.ItemsSource = threatsPage;
+                    pageNumberText.Content = string.Format("Page {0}/{1}", pageNumber, threatsPage.PageCount);
+                }
+            }
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (threatsPage != null)
+            {
+                if (threatsPage.HasNextPage)
+                {
+                    threatsPage = GetPagedList(++pageNumber);
+                    mainTable.ItemsSource = threatsPage;
+                    pageNumberText.Content = string.Format("Page {0}/{1}", pageNumber, threatsPage.PageCount);
+                }
             }
         }
     }
