@@ -41,11 +41,18 @@ namespace Laboratory
 
         private void Download_Button(object sender, RoutedEventArgs e)
         {
-            FileHandler.GetFile();
-            allthreats = ReadExcelFile();
-            threatsPage = GetPagedList();
-            mainTable.ItemsSource = threatsPage;
-            pageNumberText.Content = string.Format("Page {0}/{1}", pageNumber, threatsPage.PageCount);
+            if (!File.Exists(FileHandler.FileName))
+            {
+                FileHandler.GetFile();
+                allthreats = ReadExcelFile();
+                threatsPage = GetPagedList();
+                mainTable.ItemsSource = threatsPage;
+                pageNumberText.Content = string.Format("Page {0}/{1}", pageNumber, threatsPage.PageCount);
+            }
+            else
+            {
+                MessageBox.Show("На вашем утройстве уже есть файл");
+            }
         }
 
         private List<Threat> ReadExcelFile()

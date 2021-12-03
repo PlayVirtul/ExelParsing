@@ -30,5 +30,6 @@
         <Button x:Name="previousButton" Content="&lt;" HorizontalAlignment="Center" Margin="0,0,180,40" VerticalAlignment="Bottom" Width="75" Click="PreviousButton_Click"/>
         <Button x:Name="nextButton" Content="&gt;" HorizontalAlignment="Center" Margin="0,0,-180,40" VerticalAlignment="Bottom" Width="75" Click="NextButton_Click"/>
         <Label x:Name="pageNumberText" Content="Label" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40"/>
+        <TextBlock HorizontalAlignment="Left" Margin="619,10,0,0" TextWrapping="Wrap" Text="Для открытия описания угрозы, двойной клик." VerticalAlignment="Top" Height="39" Width="265"/>
     </Grid>
 </Window>

@@ -18,17 +18,10 @@ namespace Laboratory
         {
             try
             {
-                if (!File.Exists(FileName))
+                using (WebClient webClient = new WebClient())
                 {
-                    using (WebClient webClient = new WebClient())
-                    {
-                        webClient.DownloadFile(remoteUri, FileName);
-                        MessageBox.Show("Файл успешно скачан");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("На вашем утройстве уже есть файл");
+                    webClient.DownloadFile(remoteUri, FileName);
+                    MessageBox.Show("Файл успешно скачан");
                 }
             }
             catch (Exception e)
@@ -81,7 +74,7 @@ namespace Laboratory
                     MessageBox.Show("Файл успешно обновлен");
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show($"Неудалось обновить файл - {e.Message}");
             }
